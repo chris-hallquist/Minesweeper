@@ -1,4 +1,5 @@
 require_relative 'Board'
+require 'yaml'
 
 class Minesweeper
   # NUM_TILES =
@@ -7,11 +8,14 @@ class Minesweeper
     @board = Board.new
   end
 
-  def save(filename)
-    File.open(filename, "w")
+  def save(filename="minesweeper save.txt")
+    save_file = File.open(filename, "w")
+    save_file.puts @board.to_yaml
   end
 
-  def load
+  def load(filename="minesweeper save.txt")
+    save_file = File.read(filename)
+    @board = YAML::load(save_file)
   end
 
   def play
@@ -26,6 +30,7 @@ class Minesweeper
       elsif output == :flagged
         puts "I'm sorry Dave, I can't do that. This tile is flagged."
       end
+      save
     end
     puts "You win!" if game_won?
   end
