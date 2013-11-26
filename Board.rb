@@ -55,23 +55,29 @@ class Board
     end
   end
 
-  def _display
-    @tiles.each do |row|
-      row.each do |tile|
-        if tile.bombed && !tile.revealed
-          print "* "
-        elsif !tile.revealed
-          print "+ "
-        else
-          print "_ "
-        end
-      end
-      puts
-    end
+  # def _display
+  #   @tiles.each do |row|
+  #     row.each do |tile|
+  #       if tile.bombed && !tile.revealed
+  #         print "* "
+  #       elsif !tile.revealed
+  #         print "+ "
+  #       else
+  #         print "_ "
+  #       end
+  #     end
+  #     puts
+  #   end
+  # end
+
+  def to_s
+    ""
   end
 
   def display
-    @tiles.each do |row|
+    puts "   0 1 2 3 4 5 6 7 8"
+    @tiles.each_with_index do |row, i|
+      print "#{i}. "
       row.each do |tile|
         if tile.flagged
           print "F "

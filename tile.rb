@@ -1,5 +1,3 @@
-
-
 class Tile
   attr_accessor :bombed, :flagged, :revealed, :neighbors, :count_cache
 
@@ -8,6 +6,7 @@ class Tile
     @flagged = false
     @revealed = false
     @neighbors = []
+    # @neighboring_bomb_count
     @count_cache = nil
   end
 
@@ -21,7 +20,12 @@ class Tile
         tile.reveal(board) unless tile.revealed
       end
     end
+    true
   end
+
+  # def neighboring_bomb_count
+  #   @neighboring_bomb_count ||= calculate_neighboring_bomb_count
+  # end
 
   def neighbor_bomb_count(board)
     unless @count_cache
@@ -35,5 +39,18 @@ class Tile
       @count_cache ||= 0
     end
     @count_cache
+
+    # neighbors.count do |neighbor|
+    #   board.tiles[neighbor[0]][neighbor[1]].bombed
+    # end
+  end
+
+  def to_s
+    # if flagged?
+    #   "F"
+    # ...
   end
 end
+
+# files: this_is_snake_case
+# class: ThisIsCamelCase
