@@ -1,4 +1,4 @@
-require_relative 'Tile'
+require_relative 'Tile.rb'
 require 'debugger'
 
 class Board
@@ -16,7 +16,6 @@ class Board
 
   def initialize
     @tiles = Array.new(9) { Array.new(9) { Tile.new } }
-
     mine_board
   end
 
@@ -28,10 +27,11 @@ class Board
 
         neighbors.each do |coords|
           p [coords[0], coords[1]]
-          @tiles[row][column].neighbors << @tiles[coords[0]][coords[1]]
+          @tiles[row][column].neighbors << coords
         end
       end
     end
+
     return nil
   end
 
@@ -70,6 +70,8 @@ class Board
       end
       puts
     end
+
+    nil
   end
 
   def display
@@ -77,8 +79,8 @@ class Board
       row.each do |tile|
         if tile.flagged
           print "F "
-        elsif tile.revealed && tile.neighbor_bomb_count > 0
-          print "#{tile.neighbor_bomb_count} "
+        elsif tile.revealed && tile.neighbor_bomb_count(self) > 0
+          print "#{tile.neighbor_bomb_count(self)} "
         elsif tile.revealed
           print "_ "
         else
@@ -87,10 +89,14 @@ class Board
       end
       puts
     end
+    nil
   end
 end
 
 def test
   board = Board.new
-  board.display
+  board.populate_neighbors
+  board._display
 end
+
+test

@@ -1,3 +1,5 @@
+
+
 class Tile
   attr_accessor :bombed, :flagged, :revealed, :neighbors, :count_cache
 
@@ -16,10 +18,10 @@ class Tile
     return neighbor_bomb_count
   end
 
-  def neighbor_bomb_count(neighbors)
+  def neighbor_bomb_count(board)
     unless @count_cache
       @count_cache = neighbors.inject(0) do |acumulator, neighbor|
-        acumulator + 1 if neighbor.bombed
+        acumulator + 1 if board[neighbor[0]][neighbor[1]].bombed
       end
       @count_cache ||= 0
     end
