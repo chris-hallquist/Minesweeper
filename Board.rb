@@ -17,6 +17,7 @@ class Board
   def initialize
     @tiles = Array.new(9) { Array.new(9) { Tile.new } }
     mine_board
+    populate_neighbors
   end
 
   def populate_neighbors
@@ -26,13 +27,10 @@ class Board
         neighbors = neighbors_coords(row, column)
 
         neighbors.each do |coords|
-          p [coords[0], coords[1]]
           @tiles[row][column].neighbors << coords
         end
       end
     end
-
-    return nil
   end
 
   def neighbors_coords(x,y)
@@ -70,8 +68,6 @@ class Board
       end
       puts
     end
-
-    nil
   end
 
   def display
@@ -89,14 +85,5 @@ class Board
       end
       puts
     end
-    nil
   end
 end
-
-def test
-  board = Board.new
-  board.populate_neighbors
-  board._display
-end
-
-test

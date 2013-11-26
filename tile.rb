@@ -11,17 +11,26 @@ class Tile
     @count_cache = nil
   end
 
-  def reveal
+  def reveal(board)
     return :flagged if @flagged
     @revealed = true
     return :bomb if @bombed
-    return neighbor_bomb_count
+    if neighbor_bomb_count(board) == 0
+      @neighbors.each do |coords|
+        tile = board.tiles[coords[0]][coords[1]]
+        tile.reveal(board) unless tile.revealed
+      end
+    end
   end
 
   def neighbor_bomb_count(board)
     unless @count_cache
       @count_cache = neighbors.inject(0) do |acumulator, neighbor|
-        acumulator + 1 if board[neighbor[0]][neighbor[1]].bombed
+        if board.tiles[neighbor[0]][neighbor[1]].bombed
+          acumulator + 1
+        else
+          acumulator
+        end
       end
       @count_cache ||= 0
     end
